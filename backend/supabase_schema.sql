@@ -1,0 +1,3 @@
+-- Deprecated. Do not apply this legacy schema.
+-- The Android app uses Supabase Auth and the secure Postgres RPC migration at:
+-- ../supabase/migrations/20261123000000_bloomcycle.sql

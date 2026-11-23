@@ -1,0 +1,28 @@
+name: Build APK
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21' }
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.5.0'
+      - name: Build APK
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ vars.SUPABASE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_KEY" ]; then
+            echo "Set the SUPABASE_URL and SUPABASE_KEY repository variables."
+            exit 1
+          fi
+          gradle assembleDebug --no-daemon -PsupabaseUrl="$SUPABASE_URL" -PsupabaseKey="$SUPABASE_KEY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: BloomCycle-debug-apk
+          path: app/build/outputs/apk/debug/*.apk

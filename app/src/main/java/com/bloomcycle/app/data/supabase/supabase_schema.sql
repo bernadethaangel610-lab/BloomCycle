@@ -1,0 +1,2 @@
+-- Deprecated. Do not apply this legacy schema.
+-- Use the secure migration documented in the repository root README instead.
